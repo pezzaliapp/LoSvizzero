@@ -13,19 +13,59 @@ function assignEventListeners() {
   document.getElementById('inviaWhatsAppCompleto').addEventListener('click', inviaWhatsAppCompleto);
 }
 
-// ** Funzione per calcolare la rata partendo dall'importo **
-function calcolaNoleggio() {
-  let importo = parseEuropeanFloat(document.getElementById('importo').value) || 0;
-  let durata = parseInt(document.getElementById("durata").value);
+// Funzioni di utilità per la conversione/formattazione dei numeri
+function parseEuropeanFloat(value) {
+  if (!value) return 0;
+  value = value.replace(/[€\s]/g, '');
+  if (value.indexOf(',') !== -1) {
+    value = value.replace(/\./g, '');
+    value = value.replace(',', '.');
+  } else {
+    value = value.replace(/\./g, '');
+  }
+  return parseFloat(value);
+}
 
+function formatNumber(value) {
+  return parseFloat(value).toLocaleString('it-IT', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function calcolaPrezzo() {
+  const prezzoLordo = parseEuropeanFloat(document.getElementById('prezzoLordo').value);
+  const sconto = parseEuropeanFloat(document.getElementById('sconto').value);
+  const margine = parseEuropeanFloat(document.getElementById('margine').value);
+  const trasporto = parseEuropeanFloat(document.getElementById('trasporto').value);
+  const installazione = parseEuropeanFloat(document.getElementById('installazione').value);
+
+  let totaleIvaEsclusa = parseEuropeanFloat(document.getElementById('totaleIvaManuale').value) ||
+    (prezzoLordo - (prezzoLordo * (sconto / 100))) / (1 - (margine / 100));
+
+  const provvigione = ((totaleIvaEsclusa - trasporto - installazione) * (margine / 100));
+
+  document.getElementById('totaleIva').textContent = formatNumber(totaleIvaEsclusa) + " €";
+  document.getElementById('provvigione').textContent = formatNumber(provvigione) + " €";
+  document.getElementById('costiTrasporto').textContent = formatNumber(trasporto) + " €";
+  document.getElementById('costiInstallazione').textContent = formatNumber(installazione) + " €";
+
+  localStorage.setItem("totaleIvaEsclusa", totaleIvaEsclusa);
+}
+
+function calcolaNoleggio() {
+  let importo = parseEuropeanFloat(document.getElementById('importo').value) ||
+    parseEuropeanFloat(localStorage.getItem("totaleIvaEsclusa")) || 0;
   if (importo === 0 || isNaN(importo)) {
     alert("Per favore, inserisci un importo valido.");
     return;
   }
 
+  let durata = parseInt(document.getElementById("durata").value);
   let coefficiente = getCoefficient(importo, durata);
+
   if (!coefficiente) {
-    alert("Durata non valida per la simulazione di noleggio.");
+    alert("Importo non valido per la simulazione di noleggio.");
     return;
   }
 
@@ -38,15 +78,10 @@ function calcolaNoleggio() {
   document.getElementById("costoOrario").textContent = formatNumber(costoOrario) + " €";
 }
 
-// ** Funzione per calcolare l'importo partendo dalla rata mensile **
+// ** Nuova funzione per calcolare l'importo partendo dalla rata **
 function calcolaImporto() {
   let rataMensile = parseEuropeanFloat(document.getElementById('rataMensileInput').value);
   let durata = parseInt(document.getElementById("durata").value);
-
-  if (rataMensile === 0 || isNaN(rataMensile)) {
-    alert("Per favore, inserisci una rata valida.");
-    return;
-  }
 
   for (let maxImporto in coefficienti) {
     let coeff = coefficienti[maxImporto][durata];
