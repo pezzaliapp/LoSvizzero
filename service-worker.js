@@ -1,4 +1,4 @@
-const CACHE_NAME = "losvizzero-cache-v1";
+const CACHE_NAME = "losvizzero-cache-v2"; // Cambia il numero per forzare l'aggiornamento
 const urlsToCache = [
     "./",
     "./index.html",
