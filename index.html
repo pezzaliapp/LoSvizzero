@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LoSvizzero</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="LoSvizzero-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="LoSvizzero-512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+  <div class="container">
+    <h1>LoSvizzero - Calcolatore Prezzi</h1>
+
+    <!-- Form per il calcolo dei prezzi -->
+    <form id="calcForm">
+      <label for="prezzoLordo">Prezzo Lordo (€):</label>
+      <input type="text" id="prezzoLordo" placeholder="Inserisci il prezzo lordo">
+
+      <label for="sconto">Sconto (%):</label>
+      <input type="text" id="sconto" placeholder="Inserisci lo sconto">
+
+      <label for="margine">Margine MC (%):</label>
+      <input type="text" id="margine" placeholder="Inserisci il margine MC">
+
+      <label for="trasporto">Costo Trasporto (€):</label>
+      <input type="text" id="trasporto" placeholder="Inserisci il costo di trasporto">
+
+      <label for="installazione">Costo Installazione (€):</label>
+      <input type="text" id="installazione" placeholder="Inserisci il costo di installazione">
+
+      <label for="totaleIvaManuale">Totale IVA Esclusa (€) (Opzionale):</label>
+      <input type="text" id="totaleIvaManuale" placeholder="Inserisci totale IVA esclusa manualmente">
+
+      <button type="button" id="calcola">Calcola</button>
+    </form>
+
+    <!-- Sezione risultati del calcolo prezzi -->
+    <h2>Risultati:</h2>
+    <p>Totale IVA esclusa: <span id="totaleIva">0,00</span></p>
+    <p>Provvigione: <span id="provvigione">0,00</span></p>
+    <p>Costo Trasporto: <span id="costiTrasporto">0,00</span></p>
+    <p>Costo Installazione: <span id="costiInstallazione">0,00</span></p>
+
+    <hr>
+
+    <!-- Sezione simulatore canone di noleggio -->
+    <h1>Simulatore Canone di Noleggio</h1>
+    <div class="noleggio-container">
+      <label for="importo">Importo da finanziare (€):</label>
+      <input type="text" id="importo" placeholder="Inserisci importo">
+
+      <label for="durata">Durata (mesi):</label>
+      <select id="durata">
+        <option value="12">12 mesi</option>
+        <option value="18">18 mesi</option>
+        <option value="24" selected>24 mesi</option>
+        <option value="36">36 mesi</option>
+        <option value="48">48 mesi</option>
+        <option value="60">60 mesi</option>
+      </select>
+
+      <button type="button" id="calcolaNoleggio">Calcola Rata</button>
+
+      <h2>Oppure, inserisci la rata per calcolare l'importo:</h2>
+      <label for="rataMensileInput">Rata Mensile (€):</label>
+      <input type="text" id="rataMensileInput" placeholder="Inserisci rata">
+
+      <button type="button" id="calcolaImporto">Calcola Importo</button>
+
+      <!-- Sezione risultati del noleggio -->
+      <h2>Risultati Noleggio:</h2>
+      <p>Rata mensile: <span id="rataMensile">0,00</span></p>
+      <p>Costo giornaliero: <span id="costoGiornaliero">0,00</span></p>
+      <p>Costo orario: <span id="costoOrario">0,00</span></p>
+    </div>
+
+    <hr>
+
+    <!-- Sezione report -->
+    <h2>📄 Genera Report PDF</h2>
+    <button type="button" id="generaPdfConNoleggio">📄 Genera PDF con Noleggio</button>
+    <button type="button" id="generaPdfSenzaNoleggio">📄 Genera PDF senza Noleggio</button>
+    <button type="button" id="generaPdfConProvvigione">📄 Genera PDF con Calcolo Provvigione</button>
+
+    <h2>📤 Condividi via WhatsApp</h2>
+    <button type="button" id="inviaWhatsApp">📲 Invia Report su WhatsApp</button>
+    <button type="button" id="inviaWhatsAppCompleto">📲 Invia Report Completo su WhatsApp</button>
+  </div>
+
+  <!-- Caricamento della libreria jsPDF e script principale -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script defer src="app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registrato con successo'))
+        .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
+    }
+  </script>
+</body>
+</html>
