@@ -14,7 +14,6 @@ function assignEventListeners() {
   document.getElementById("generaPdfConProvvigione").addEventListener("click", () => generaPDF(true, true));
   document.getElementById("inviaWhatsApp").addEventListener("click", inviaWhatsApp);
   document.getElementById("inviaWhatsAppCompleto").addEventListener("click", inviaWhatsAppCompleto);
-
   document.getElementById("generaTxt").addEventListener("click", () => generaTXT(true, true));
 }
 
