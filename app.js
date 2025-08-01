@@ -15,12 +15,7 @@ function assignEventListeners() {
   document.getElementById("inviaWhatsApp").addEventListener("click", inviaWhatsApp);
   document.getElementById("inviaWhatsAppCompleto").addEventListener("click", inviaWhatsAppCompleto);
 
-  const txtButton = document.createElement("button");
-  txtButton.textContent = "📄 Esporta TXT";
-  txtButton.id = "esportaTxt";
-  txtButton.type = "button";
-  txtButton.addEventListener("click", () => generaTXT(true, true));
-  document.querySelector(".container").appendChild(txtButton);
+  document.getElementById("generaTxt").addEventListener("click", () => generaTXT(true, true));
 }
 
 function parseEuropeanFloat(value) {
