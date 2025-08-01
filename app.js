@@ -14,11 +14,15 @@ function assignEventListeners() {
   document.getElementById("generaPdfConProvvigione").addEventListener("click", () => generaPDF(true, true));
   document.getElementById("inviaWhatsApp").addEventListener("click", inviaWhatsApp);
   document.getElementById("inviaWhatsAppCompleto").addEventListener("click", inviaWhatsAppCompleto);
+
+  const txtButton = document.createElement("button");
+  txtButton.textContent = "📄 Esporta TXT";
+  txtButton.id = "esportaTxt";
+  txtButton.type = "button";
+  txtButton.addEventListener("click", () => generaTXT(true, true));
+  document.querySelector(".container").appendChild(txtButton);
 }
 
-// ==============================
-// Funzioni di utilità numerica
-// ==============================
 function parseEuropeanFloat(value) {
   if (!value) return 0;
   value = value.replace(/[\u20AC\s]/g, "");
@@ -38,9 +42,6 @@ function formatNumber(value) {
   });
 }
 
-// ==============================
-// Calcolo Prezzo + Margini
-// ==============================
 function calcolaPrezzo() {
   const prezzoLordo = parseEuropeanFloat(document.getElementById("prezzoLordo").value);
   const sconto = parseEuropeanFloat(document.getElementById("sconto").value);
@@ -62,9 +63,6 @@ function calcolaPrezzo() {
   localStorage.setItem("totaleIvaEsclusa", totaleIvaEsclusa);
 }
 
-// ==============================
-// Calcolo Noleggio da Importo
-// ==============================
 function calcolaNoleggio() {
   let importo = parseEuropeanFloat(document.getElementById("importo").value) ||
     parseEuropeanFloat(localStorage.getItem("totaleIvaEsclusa")) || 0;
@@ -81,7 +79,6 @@ function calcolaNoleggio() {
     return;
   }
 
-  // Calcolo spese di contratto
   let speseContratto = 0;
   if (importo < 5001) speseContratto = 75;
   else if (importo < 10001) speseContratto = 100;
@@ -101,9 +98,6 @@ function calcolaNoleggio() {
   localStorage.setItem("speseContratto", speseContratto);
 }
 
-// ==============================
-// Calcolo Importo da Rata (inverso)
-// ==============================
 function calcolaImporto() {
   let rataMensile = parseEuropeanFloat(document.getElementById("rataMensileInput").value);
   let durata = parseInt(document.getElementById("durata").value);
@@ -135,9 +129,6 @@ function calcolaImporto() {
   }
 }
 
-// ==============================
-// Coefficienti aggiornati
-// ==============================
 const coefficienti = {
   5000:   { 12: 0.081123, 18: 0.058239, 24: 0.045554, 36: 0.032359, 48: 0.025445, 60: 0.021358 },
   15000:  { 12: 0.081433, 18: 0.058341, 24: 0.045535, 36: 0.032207, 48: 0.025213, 60: 0.021074 },
@@ -155,9 +146,6 @@ function getCoefficient(importo, durata) {
   return null;
 }
 
-// ==============================
-// Report, PDF e WhatsApp
-// ==============================
 function generaReport(includeNoleggio, includeProvvigione) {
   let report = "Report LoSvizzero\n\n";
   let totaleIva = document.getElementById("totaleIva").textContent;
@@ -194,6 +182,15 @@ function generaPDF(includeNoleggio, includeProvvigione) {
   let lines = doc.splitTextToSize(report, 180);
   doc.text(lines, 10, 10);
   doc.save("report.pdf");
+}
+
+function generaTXT(includeNoleggio, includeProvvigione) {
+  let report = generaReport(includeNoleggio, includeProvvigione);
+  let blob = new Blob([report], { type: "text/plain" });
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "report.txt";
+  link.click();
 }
 
 function inviaWhatsApp() {
