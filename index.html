@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LoSvizzero</title>
-  <meta name="theme-color" content="#ffffff">
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="LoSvizzero-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="LoSvizzero-512.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="LoSvizzero-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="LoSvizzero-512.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 </head>
 <body>
   <div class="container">
@@ -19,22 +19,22 @@
     <!-- Form per il calcolo dei prezzi -->
     <form id="calcForm" autocomplete="off">
       <label for="prezzoLordo">Prezzo Lordo (€):</label>
-      <input type="text" id="prezzoLordo" placeholder="Inserisci il prezzo lordo" autocomplete="off">
+      <input type="text" id="prezzoLordo" placeholder="Inserisci il prezzo lordo" autocomplete="off" />
 
       <label for="sconto">Sconto (%):</label>
-      <input type="text" id="sconto" placeholder="Inserisci lo sconto" autocomplete="off">
+      <input type="text" id="sconto" placeholder="Inserisci lo sconto" autocomplete="off" />
 
       <label for="margine">Margine MC (%):</label>
-      <input type="text" id="margine" placeholder="Inserisci il margine MC" autocomplete="off">
+      <input type="text" id="margine" placeholder="Inserisci il margine MC" autocomplete="off" />
 
       <label for="trasporto">Costo Trasporto (€):</label>
-      <input type="text" id="trasporto" placeholder="Inserisci il costo di trasporto" autocomplete="off">
+      <input type="text" id="trasporto" placeholder="Inserisci il costo di trasporto" autocomplete="off" />
 
       <label for="installazione">Costo Installazione (€):</label>
-      <input type="text" id="installazione" placeholder="Inserisci il costo di installazione" autocomplete="off">
+      <input type="text" id="installazione" placeholder="Inserisci il costo di installazione" autocomplete="off" />
 
       <label for="totaleIvaManuale">Totale IVA Esclusa (€) (Opzionale):</label>
-      <input type="text" id="totaleIvaManuale" placeholder="Inserisci totale IVA esclusa manualmente" autocomplete="off">
+      <input type="text" id="totaleIvaManuale" placeholder="Inserisci totale IVA esclusa manualmente" autocomplete="off" />
 
       <button type="button" id="calcola">Calcola</button>
     </form>
@@ -45,13 +45,13 @@
     <p>Costo Trasporto: <span id="costiTrasporto">0,00</span></p>
     <p>Costo Installazione: <span id="costiInstallazione">0,00</span></p>
 
-    <hr>
+    <hr />
 
     <!-- Simulatore Noleggio -->
     <h1>Simulatore Canone di Noleggio</h1>
     <div class="noleggio-container">
       <label for="importo">Importo da finanziare (€):</label>
-      <input type="text" id="importo" placeholder="Inserisci importo" autocomplete="off">
+      <input type="text" id="importo" placeholder="Inserisci importo" autocomplete="off" />
 
       <label for="durata">Durata (mesi):</label>
       <select id="durata">
@@ -67,7 +67,7 @@
 
       <h2>Oppure, inserisci la rata per calcolare l'importo:</h2>
       <label for="rataMensileInput">Rata Mensile (€):</label>
-      <input type="text" id="rataMensileInput" placeholder="Inserisci rata" autocomplete="off">
+      <input type="text" id="rataMensileInput" placeholder="Inserisci rata" autocomplete="off" />
 
       <button type="button" id="calcolaImporto">Calcola Importo</button>
 
@@ -78,7 +78,7 @@
       <p>Costo orario: <span id="costoOrario">0,00</span></p>
     </div>
 
-    <hr>
+    <hr />
 
     <!-- Report e WhatsApp -->
     <h2>📄 Genera Report PDF</h2>
@@ -89,6 +89,9 @@
     <h2>📤 Condividi via WhatsApp</h2>
     <button type="button" id="inviaWhatsApp">📲 Invia Report</button>
     <button type="button" id="inviaWhatsAppCompleto">📲 Invia Completo</button>
+
+    <h2>📝 Esporta Report in TXT</h2>
+    <button type="button" id="generaTxt">📝 Esporta .txt</button>
   </div>
 
   <!-- Libreria jsPDF e script principale -->
@@ -98,9 +101,10 @@
   <!-- PWA: Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
+      navigator.serviceWorker
+        .register('service-worker.js')
         .then(() => console.log('Service Worker registrato con successo'))
-        .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
+        .catch((err) => console.error('Errore nella registrazione del Service Worker:', err));
     }
   </script>
 </body>
